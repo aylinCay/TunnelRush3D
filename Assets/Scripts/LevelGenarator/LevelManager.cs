@@ -41,9 +41,14 @@ namespace TunnelRush.LevelGenarator
            if (selected.transform.position.z <= zPosition)
            {
                var first = blocks[0];
+               first.hideEvent.Invoke(true);
                first.transform.position = selected.transform.position + (Vector3.forward * zPositionDiff);
                blocks.RemoveAt(0);
                blocks.Add(first);
+               first.saveCallPositionEvent.Invoke();
+               first.moveCallPositionEvent.Invoke();
+               first.hideEvent.Invoke(false);
+               first.moveFirstPositionEvent.Invoke();
 
            }
            

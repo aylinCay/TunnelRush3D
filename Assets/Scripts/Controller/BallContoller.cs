@@ -1,12 +1,15 @@
-using System.Timers;
+using System.Collections.Specialized;
+using System.Numerics;
+using System;
+
 using TunnelRush.LevelGenarator;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine.UIElements;
 
 namespace TunnelRush.Controller
 {
-    using System.Collections;
-    using System.Collections.Generic;
+ 
     using UnityEngine;
     [RequireComponent(typeof(Rigidbody))]
 
@@ -17,18 +20,20 @@ namespace TunnelRush.Controller
         private Vector3 _firstInput;
 
         private Vector3 _secondInput;
-        
 
+        public float jumpForce = 5f;
+
+        public bool isGrounded;
+        
         void Start()
         {
             _rigidBody = GetComponent<Rigidbody>();
-            
         }
 
-        // Update is called once per frame
+       
         void Update()
         {
-         ReadInput();
+          ReadInput();
         }
 
         void ReadInput()
@@ -36,7 +41,11 @@ namespace TunnelRush.Controller
             if (Input.GetButtonDown("Fire1"))
             {
                 _firstInput = Input.mousePosition;
-
+                
+                if (isGrounded)
+                {
+                    _rigidBody.AddForce(0f,jumpForce,0f,ForceMode.Impulse);
+                }
             }
 
             if (Input.GetButton("Fire1"))
@@ -46,14 +55,26 @@ namespace TunnelRush.Controller
 
             if (Input.GetButtonUp("Fire1"))
             {
+               
                 var result = _firstInput - _secondInput;
                 var direction = result.x > 0f ? Vector3.right : result.x < 0f ? Vector3.left : Vector3.zero;
                 Manager.GameManager.GlobalAccess.levelManager.RotateToLevel(direction:direction);
-                
-
             }
         }
 
+        private void OnCollisionStay(Collision collisionInfo)
+        {
+            if (collisionInfo.gameObject != null)
+            {
+              isGrounded = true;
+         
+            }
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            isGrounded = false;
+        }
     }
 
 }

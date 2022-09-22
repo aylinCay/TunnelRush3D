@@ -854,7 +854,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5108216606975901807, guid: 801739ed4fab4834ba994e9ba84d6f9a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 801739ed4fab4834ba994e9ba84d6f9a, type: 3}
 --- !u!1 &5108216608222676192 stripped
 GameObject:
@@ -874,6 +875,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624c420928c601247b93b2bd6a24393f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpForce: 5
+  isGrounded: 0
 --- !u!1001 &7067962802661885334
 PrefabInstance:
   m_ObjectHideFlags: 0
